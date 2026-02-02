@@ -7,7 +7,7 @@ const pool = new Pool({ connectionString })
 const adapter = new PrismaPg(pool)
 
 const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient<typeof adapter> | undefined
+  prisma: PrismaClient | undefined
 }
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter })
