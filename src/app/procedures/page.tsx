@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 
@@ -55,12 +55,12 @@ const procedures = [
   },
 ]
 
-export default function ProceduresPage() {
+function ProceduresContent() {
   const searchParams = useSearchParams()
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   useEffect(() => {
-    const procedureId = searchParams.get("procedure")
+    const procedureId = searchParams?.get("procedure")
     if (procedureId) {
       setExpandedId(procedureId)
     }
@@ -152,5 +152,13 @@ export default function ProceduresPage() {
         </div>
       </section>
     </main>
+  )
+}
+
+export default function ProceduresPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <ProceduresContent />
+    </Suspense>
   )
 }
